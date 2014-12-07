@@ -1,0 +1,21 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body
+		block content
+		script(src="https://code.jquery.com/jquery-2.1.1.min.js")
+		script(src="/socket.io/socket.io.js")
+		script.
+			var socket = io();
+			socket.on('twit', function(data){
+				console.log(data.profile_image_url);
+				$('#messages').prepend($('<li>').text('@'+data.user.screen_name+' : '+data.text));
+				$('#messages').prepend('<img id="theImg" src="'+data.user.profile_image_url+'" />');
+			});
+			$(function () {
+				$("#visor").animate({
+					scrollTop: $('#visor').get(0).scrollHeight
+				}, 1000);}
+			);
