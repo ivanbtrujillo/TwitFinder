@@ -62,11 +62,40 @@ app.use(function(err, req, res, next) {
     });
 });
 
+var termino = [''];
+
+
+var nobuscar = false;
 io.on('connection', function(socket){
     console.log('Usuario conectado');
     socket.on('disconnect', function(){
         console.log('Usuario desconectado');
     });
+
+    socket.on('termino', function(msg){
+        nobuscar = false;
+        console.log('Buscar twits por: ' + msg);
+        if(msg.length === 0 || !msg.trim()){
+            console.log('NoBuscar')
+            no_buscar= true;
+        }else {
+        termino[0]=msg;
+        }
+        if(nobuscar ==false){
+            twit.stream('statuses/filter', {track: termino}, function (stream) { 
+                socket.on('parar', function(msg){
+                    setTimeout(stream.destroy, 1);
+                });
+                stream.on('data', function (data) {
+
+                    console.log(termino);
+
+                    io.emit('twit', data);
+                });
+            });
+        }
+    });
+
 });
 
 var twit = new twitter ({
@@ -76,14 +105,7 @@ var twit = new twitter ({
     access_token_secret: 'AlXvGJkAWhdKKQEFHQ5y2RiAy0PjfB8ZyXvfYhSi42Quv'
 });
 
-twit.stream('statuses/filter', {track: ['musica']}, function (stream) { 
 
-    stream.on('data', function (data) {
-            console.log(data);
-        console.log(data.user.screen_name + ' : '+data.text);
-        io.emit('twit', data);
-    });
-});
 
 
 

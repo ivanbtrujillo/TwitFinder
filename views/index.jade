@@ -4,9 +4,16 @@ block content
   h1= title
   p Buscador de Tweets
   div(style="text-align: center")
-    p Introduzca el tema a buscar
-    input(label="Introduzca el tema a buscar")
-  div.messages#visor(style="width: auto; height:400px; border: 1px solid black; overflow-y: auto; margin-top: 2em")
-    ul#messages
+    h2 Buscador de twits!
+    form#buscador(action="")
+      input#finder(label="Introduzca el tema a buscar")
+      button Buscar
+      button#stop Parar
+      button#clean Limpiar
+    div.status
+      p.indicator.is-inactive#indicador_buscador Buscando twits de 
+        span#termino_busqueda
+  div.messages#visor(style="width: auto; height:400px; overflow-y: auto; margin-top: 2em")
+    ul.twits#messages
 
 

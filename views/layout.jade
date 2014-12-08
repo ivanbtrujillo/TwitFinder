@@ -11,11 +11,45 @@ html
 			var socket = io();
 			socket.on('twit', function(data){
 				console.log(data.profile_image_url);
-				$('#messages').prepend($('<li>').text('@'+data.user.screen_name+' : '+data.text));
-				$('#messages').prepend('<img id="theImg" src="'+data.user.profile_image_url+'" />');
+				//- $("<li/>").prepend('<img src="'+data.user.profile_image_url+'" />').text('@'+data.text).appendTo('#messages');
+				//- $('#messages').prepend($('<li>').text('@'+data.user.screen_name+' : '+data.text));
+				$('#messages').prepend('<hr>');
+				$('#messages').prepend('<li><img class="twit-egg" src="images/twitter.png"/><img id="theImg" src="'+data.user.profile_image_url+'" /> <a href="http://twitter.com/'+data.user.screen_name+'" target="_blank">@'+data.user.screen_name+'</a> : '+data.text);
+
 			});
 			$(function () {
 				$("#visor").animate({
 					scrollTop: $('#visor').get(0).scrollHeight
 				}, 1000);}
 			);
+			$('#buscador').submit(function(){
+				socket.emit('parar');
+				$('#messages').val('');
+				socket.emit('termino', $('#finder').val());
+				$('#termino_busqueda').text($('#finder').val());
+				$('#finder').val('');
+				ShowIndicator();
+
+				return false;
+			});
+			$('#stop').click(function(){
+				socket.emit('parar');
+				$('#termino_busqueda').val('');
+				HideIndicator();
+				return false;
+			});
+			$('#clean').click(function(){
+				$('#messages').empty();
+				HideIndicator();
+				return false;
+			});
+
+			var HideIndicator = function() { 
+				$("#indicador_buscador").removeClass("is-active");
+				$("#indicador_buscador").addClass("is-inactive");
+			}
+
+			var ShowIndicator= function() {
+				$("#indicador_buscador").removeClass("is-inactive");
+				$("#indicador_buscador").addClass("is-active");
+			}

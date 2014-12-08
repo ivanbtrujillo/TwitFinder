@@ -1,8 +1,1 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
+body{padding:50px;font:14px "Lucida Grande",Helvetica,Arial,sans-serif}h1{color:#006971}a{color:#00b7ff}ul.twits{margin-right:2.5em}li{list-style-type:none}.twit-egg{width:32px;padding-right:2em}.is-active{display:block;background:#a5df00}.is-inactive{display:none}.status{text-align:center}.indicator{border:1px solid #000;text-align:center;width:200px}
